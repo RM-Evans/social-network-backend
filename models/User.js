@@ -13,7 +13,8 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email address']
+        match: [/.+\@.+\..+/, "Enter a valid email address"]
+        // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email address']
     },
     thoughts: [
         {
@@ -38,7 +39,7 @@ const UserSchema = new Schema({
 );
 
 //creating user model using the UserSchema schema
-const User = model('User, UserSchema');
+const User = model('User', UserSchema);
 
 // get total amount of friends on retrieval
 UserSchema.virtual('friendCount').get(function () {
