@@ -91,12 +91,18 @@ const thoughtController = {
             .catch((err) => res.json(err));
     },
     //delete Reaction
+    //*fixed delete reaction
+
     removeReaction({ params }, res) {
-        Thought.findOneAndUpdate(
+        Thought.findOne(
             { _id: params.thoughtId },
-            { $pull: { reactions: { reactionId: params.reactionId } } },
-            { new: true }
-        )
+
+
+        ).then((dbThoughtData) => {
+            dbThoughtData.reactions.pull(params.reactionId);
+            return dbThoughtData.save();
+        })
+
             .then((dbThoughtData) => res.json(dbThoughtData))
             .catch((err) => res.json(err));
     },
@@ -104,3 +110,8 @@ const thoughtController = {
 
 
 module.exports = thoughtController;
+
+
+
+            // { $pull: { reactions: { reactionId: params.reactionId } } },
+            // { new: true }
